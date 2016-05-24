@@ -1,0 +1,79 @@
+puppet-module-puppetlabs-ntp (4.2.0-2) unstable; urgency=medium
+
+  * Update dependencies for puppet 4
+
+ -- Stig Sandbeck Mathisen <ssm@debian.org>  Tue, 24 May 2016 09:54:38 +0200
+
+puppet-module-puppetlabs-ntp (4.2.0-1) unstable; urgency=medium
+
+  * Imported upstream relase 4.2.0
+  * Declare compliance with Debian policy 3.9.8
+  * Update VCS-* URLs
+  * Add myself to Uploaders list
+  * Update source homepage
+
+ -- Stig Sandbeck Mathisen <ssm@debian.org>  Wed, 18 May 2016 21:11:24 +0200
+
+puppet-module-puppetlabs-ntp (4.1.1-1) unstable; urgency=medium
+
+  * Team upload.
+  * Imported upstream release 4.1.1
+
+ -- Stig Sandbeck Mathisen <ssm@debian.org>  Wed, 25 Nov 2015 12:37:24 +0100
+
+puppet-module-puppetlabs-ntp (4.1.0-1) unstable; urgency=medium
+
+  * Imported upstream release 4.1.0
+  * [75f8e2e] Add DEP-8 tests
+
+ -- Stig Sandbeck Mathisen <ssm@debian.org>  Sat, 12 Sep 2015 00:30:18 +0200
+
+puppet-module-puppetlabs-ntp (4.0.0-1) unstable; urgency=medium
+
+  * Imported upstream relase 4.0.0
+
+ -- Michael Weiser <michael.weiser@gmx.de>  Tue, 23 Jun 2015 15:31:25 +0200
+
+puppet-module-puppetlabs-ntp (3.3.0-1) unstable; urgency=medium
+
+  * Imported upstream relase 3.3.0
+
+ -- Michael Weiser <michael.weiser@gmx.de>  Fri, 21 Nov 2014 12:29:17 +0100
+
+puppet-module-puppetlabs-ntp (3.2.1-1) unstable; urgency=medium
+
+  * Imported upstream relase 3.2.1
+  * Declare compliance with Debian policy 3.9.6
+  * Update debian/control metadata with cme (Vcs-*)
+  * Update dependencies
+  * Update file lists
+
+ -- Stig Sandbeck Mathisen <ssm@debian.org>  Fri, 24 Oct 2014 22:14:54 +0200
+
+puppet-module-puppetlabs-ntp (3.0.3-1) unstable; urgency=medium
+
+  * New upstream release.
+
+ -- Thomas Bechtold <toabctl@debian.org>  Fri, 07 Mar 2014 21:34:12 +0100
+
+puppet-module-puppetlabs-ntp (3.0.1-2) unstable; urgency=medium
+
+  * debian/watch: use redirector from qa.debian.org.
+
+ -- Thomas Bechtold <toabctl@debian.org>  Wed, 22 Jan 2014 07:54:56 +0100
+
+puppet-module-puppetlabs-ntp (3.0.1-1) unstable; urgency=medium
+
+  * New upstream release.
+  * debian/control:
+    - Use Debian address in Uploaders field.
+    - Bump Standards-Version to 3.9.5. No further changes.
+
+ -- Thomas Bechtold <toabctl@debian.org>  Sun, 05 Jan 2014 17:41:08 +0100
+
+puppet-module-puppetlabs-ntp (2.0.1-1) unstable; urgency=low
+
+  [ Thomas Bechtold ]
+  * Initial release (Closes: #720094)
+
+ -- Stig Sandbeck Mathisen <ssm@debian.org>  Sun, 08 Sep 2013 19:20:50 +0200

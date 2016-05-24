@@ -1,0 +1,5 @@
+metadata.json usr/share/puppet/modules.available/puppetlabs-ntp
+templates usr/share/puppet/modules.available/puppetlabs-ntp
+tests usr/share/puppet/modules.available/puppetlabs-ntp
+manifests usr/share/puppet/modules.available/puppetlabs-ntp
+lib usr/share/puppet/modules.available/puppetlabs-ntp
