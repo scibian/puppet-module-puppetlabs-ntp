@@ -1,20 +1,21 @@
 Source: puppet-module-puppetlabs-ntp
-Maintainer: Scibian Project <packaging@scibian.org>
+Maintainer: Puppet Package Maintainers <pkg-puppet-devel@lists.alioth.debian.org>
 Uploaders: Stig Sandbeck Mathisen <ssm@debian.org>,
-           Thomas Bechtold <toabctl@debian.org>
+           Thomas Bechtold <toabctl@debian.org>,
+           Russ Allbery <rra@debian.org>
 Section: admin
 Priority: optional
-Build-Depends: debhelper (>= 8)
+Build-Depends: debhelper (>= 10)
 Standards-Version: 3.9.8
-Vcs-Browser: https://github.com/scibian/puppet-module-puppetlabs-ntp
-Vcs-Git: https://github.com/scibian/puppet-module-puppetlabs-ntp.git
+Vcs-Browser: https://anonscm.debian.org/cgit/pkg-puppet/puppet-module-puppetlabs-ntp.git
+Vcs-Git: https://anonscm.debian.org/git/pkg-puppet/puppet-module-puppetlabs-ntp.git
 Homepage: https://forge.puppet.com/puppetlabs/ntp
 
 Package: puppet-module-puppetlabs-ntp
 Architecture: all
 Depends: ${misc:Depends},
          puppet (>= 4) | puppet-common (>= 3),
-         puppet-module-puppetlabs-stdlib
+         puppet-module-puppetlabs-stdlib (>= 4.13.1)
 Description: Puppet module for ntp
  Puppet lets you centrally manage every important aspect of your system
  using a cross-platform specification language that manages all the

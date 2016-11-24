@@ -1,14 +1,19 @@
-puppet-module-puppetlabs-ntp (4.2.0-2sci8u1) scibian8; urgency=medium
+puppet-module-puppetlabs-ntp (6.0.0-2) unstable; urgency=medium
 
-  * Scibian8 rebuild.
+  * Also install the new data and types directories and hiera.yaml.
+  * Fix debian/copyright ordering (noticed by Lintian).
+  * Add myself to Uploaders.
 
- -- Thomas Hamel <thomas-externe.hamel@edf.fr>  Wed, 13 Dec 2017 15:12:18 +0100
+ -- Russ Allbery <rra@debian.org>  Thu, 24 Nov 2016 10:39:12 -0800
 
-puppet-module-puppetlabs-ntp (4.2.0-2~bpo8+0calibre1) calibre9; urgency=low
+puppet-module-puppetlabs-ntp (6.0.0-1) unstable; urgency=medium
 
-  * New upstream release for Calibre9
+  * Imported upstream release 6.0.0
+  * debian/copyright: Use https URL
+  * Use debhelper 10
+  * Add versioned dependency on puppet-module-puppetlabs-stdlib
 
- -- Cecile Yoshikawa <cecile.yoshikawa@edf.fr>  Fri, 12 Aug 2016 09:39:44 +0100
+ -- Stig Sandbeck Mathisen <ssm@debian.org>  Sat, 19 Nov 2016 18:35:34 +0100
 
 puppet-module-puppetlabs-ntp (4.2.0-2) unstable; urgency=medium
 

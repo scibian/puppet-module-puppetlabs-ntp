@@ -1,14 +1,13 @@
-Format: http://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
+Format: https://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
 Upstream-Name: puppetlabs-ntp
 Source: https://forge.puppetlabs.com/puppetlabs/ntp
 
-Files: debian/*
-Copyright: 2013 Thomas Bechtold <thomasbechtold@jpberlin.de>
-           2017 Scibian Project <legal@scibian.org>
-License: Apache-2.0
-
 Files: *
 Copyright: 2013 Puppet Labs
+License: Apache-2.0
+
+Files: debian/*
+Copyright: 2013 Thomas Bechtold <thomasbechtold@jpberlin.de>
 License: Apache-2.0
 
 License: Apache-2.0
@@ -26,4 +25,3 @@ License: Apache-2.0
  .
  On Debian systems, the complete text of the Apache License 2.0 can
  be found in "/usr/share/common-licenses/Apache-2.0"
-
