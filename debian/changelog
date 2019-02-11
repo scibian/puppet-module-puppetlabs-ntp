@@ -1,4 +1,10 @@
-puppet-module-puppetlabs-ntp (4.2.0-2sci8u1) scibian8; urgency=medium
+puppet-module-puppetlabs-ntp (6.0.0-2sci8u1) scibian8; urgency=medium
+
+  * New upstream release for Scibian8.
+
+ -- Benoit Boccard <benoit-externe.boccard@edf.fr>  Mon, 11 Feb 2019 15:22:14 +0100
+
+puppet-module-puppetlabs-ntp (6.0.0-2) unstable; urgency=medium
 
   * Scibian8 rebuild.
 
