@@ -13,7 +13,7 @@ Homepage: https://forge.puppet.com/puppetlabs/ntp
 Package: puppet-module-puppetlabs-ntp
 Architecture: all
 Depends: ${misc:Depends},
-         puppet (>= 4) | puppet-common (>= 3),
+         puppet4 | puppet-common (>= 3),
          puppet-module-puppetlabs-stdlib
 Description: Puppet module for ntp
  Puppet lets you centrally manage every important aspect of your system
