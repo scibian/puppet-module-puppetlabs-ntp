@@ -1,30 +1,29 @@
+# frozen_string_literal: true
+
 require 'spec_helper_acceptance'
 
-if (fact('osfamily') == 'Solaris')
-  config = '/etc/inet/ntp.conf'
-else
-  config = '/etc/ntp.conf'
-end
+config = if os[:family] == 'solaris'
+           '/etc/inet/ntp.conf'
+         else
+           '/etc/ntp.conf'
+         end
 
-describe 'preferred servers', :unless => UNSUPPORTED_PLATFORMS.include?(fact('osfamily')) do
-  pp = <<-EOS
-      class { '::ntp':
-        servers           => ['a', 'b', 'c', 'd'],
-        preferred_servers => ['c', 'd'],
-      }
-  EOS
+describe 'preferred servers', unless: UNSUPPORTED_PLATFORMS.include?(os[:family]) do
+  pp = <<-MANIFEST
+    class { '::ntp':
+      servers           => ['a', 'b', 'c', 'd'],
+      preferred_servers => ['c', 'd'],
+    }
+  MANIFEST
 
   it 'applies cleanly' do
-    apply_manifest(pp, :catch_failures => true) do |r|
-      expect(r.stderr).not_to match(/error/i)
+    apply_manifest(pp, catch_failures: true) do |r|
+      expect(r.stderr).not_to match(%r{error}i)
     end
-  end
-
-  describe file("#{config}") do
-    it { should be_file }
-    its(:content) { should match 'server a' }
-    its(:content) { should match 'server b' }
-    its(:content) { should match /server c (iburst\s|)prefer/ }
-    its(:content) { should match /server d (iburst\s|)prefer/ }
+    expect(file(config.to_s)).to be_file
+    expect(file(config.to_s).content).to match 'server a'
+    expect(file(config.to_s).content).to match 'server b'
+    expect(file(config.to_s).content).to match %r{server c (iburst\s|)prefer}
+    expect(file(config.to_s).content).to match %r{server d (iburst\s|)prefer}
   end
 end

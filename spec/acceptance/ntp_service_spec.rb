@@ -1,97 +1,69 @@
+# frozen_string_literal: true
+
 require 'spec_helper_acceptance'
 require 'specinfra'
 
-case fact('osfamily')
-  when 'RedHat', 'FreeBSD', 'Linux', 'Gentoo'
-    servicename = 'ntpd'
-  when 'Solaris'
+case os[:family]
+when 'redhat', 'freebsd', 'linux'
+  servicename = 'ntpd'
+when 'solaris'
+  case fact('kernelrelease')
+  when '5.10'
+    servicename = 'network/ntp4'
+  when '5.11'
     servicename = 'network/ntp'
-  when 'AIX'
-    servicename = 'xntpd'
-  else
-    if fact('operatingsystem') == 'SLES' and fact('operatingsystemmajrelease') == '12'
-      servicename = 'ntpd'
-    else
-      servicename = 'ntp'
-    end
-end
-shared_examples 'running' do
-  describe service(servicename) do
-    if !(fact('operatingsystem') == 'SLES' && fact('operatingsystemmajrelease') == '12')
-      it { should be_running }
-      if (fact('operatingsystem') == 'Debian' && fact('operatingsystemmajrelease') == '8')
-        pending 'Should be enabled - Bug 760616 on Debian 8'
-      else
-        it { should be_enabled }
-      end
-    else
-      # hack until we either update SpecInfra or come up with alternative
-      it {
-        output = shell('service ntpd status')
-        expect(output.stdout).to match(/Active\:\s+active\s+\(running\)/)
-        expect(output.stdout).to match(/^\s+Loaded.*enabled\)$/)
-      }
-    end
   end
+when 'aix'
+  servicename = 'xntpd'
+else
+  servicename = if os[:family] == 'sles' && os[:release].start_with?('12', '15')
+                  'ntpd'
+                else
+                  'ntp'
+                end
 end
-describe 'ntp::service class', :unless => UNSUPPORTED_PLATFORMS.include?(fact('osfamily')) do
-  describe 'basic test' do
-    it 'sets up the service' do
-      apply_manifest(%{
-        class { 'ntp': }
-      }, :catch_failures => true)
-    end
 
-    it_should_behave_like 'running'
+describe 'ntp::service class', unless: UNSUPPORTED_PLATFORMS.include?(os[:family]) do
+  describe 'with a basic test' do
+    pp = <<-MANIFEST
+      class { 'ntp': }
+    MANIFEST
+    it 'sets up the service' do
+      apply_manifest(pp, catch_failures: true)
+      expect(service(servicename)).to be_running
+      expect(service(servicename)).to be_enabled
+    end
   end
 
   describe 'service parameters' do
+    pp = <<-MANIFEST
+    class { 'ntp':
+      service_enable => true,
+      service_ensure => running,
+      service_manage => true,
+      service_name   => '#{servicename}'
+    }
+    MANIFEST
     it 'starts the service' do
-      pp = <<-EOS
-      class { 'ntp':
-        service_enable => true,
-        service_ensure => running,
-        service_manage => true,
-        service_name   => '#{servicename}'
-      }
-      EOS
-      apply_manifest(pp, :catch_failures => true)
+      apply_manifest(pp, catch_failures: true)
+      expect(service(servicename)).to be_running
+      expect(service(servicename)).to be_enabled
     end
-    it_should_behave_like 'running'
   end
-end
 
-describe 'service is unmanaged' do
-  it 'shouldnt stop the service' do
-    pp = <<-EOS
+  describe 'service is unmanaged' do
+    pp = <<-MANIFEST
       class { 'ntp':
         service_enable => false,
         service_ensure => stopped,
         service_manage => false,
         service_name   => '#{servicename}'
       }
-    EOS
-    apply_manifest(pp, :catch_failures => true)
-  end
-
-  describe service(servicename) do
-    if !(fact('operatingsystem') == 'SLES' && fact('operatingsystemmajrelease') == '12')
-      it { should be_running }
-      if (fact('operatingsystem') == 'Debian' && fact('operatingsystemmajrelease') == '8')
-        pending 'Should be enabled - Bug 760616 on Debian 8'
-      else
-        it { should be_enabled }
-      end
-    else
-      # hack until we either update SpecInfra or come up with alternative
-      output = shell('service ntpd status', :acceptable_exit_codes => [0, 3])
-      it 'should be disabled' do
-        expect(output.stdout).to match(/^\s+Loaded.*disabled\)$/)
-      end
-      it 'should be stopped' do
-        expect(output.stdout).to match(/Active\:\s+inactive/)
-      end
+    MANIFEST
+    it 'shouldnt stop the service' do
+      apply_manifest(pp, catch_failures: true)
+      expect(service(servicename)).to be_running
+      expect(service(servicename)).to be_enabled
     end
   end
 end
-

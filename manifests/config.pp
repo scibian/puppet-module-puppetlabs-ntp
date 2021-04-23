@@ -1,11 +1,73 @@
-# Private Class
-class ntp::config inherits ntp {
+# @summary
+#   This class handles the configuration file.
+#
+# @api private
+#
+class ntp::config {
 
   #The servers-netconfig file overrides NTP config on SLES 12, interfering with our configuration.
-  if $facts['operatingsystem'] == 'SLES' and $facts['operatingsystemmajrelease'] == '12' {
+  if ($facts['operatingsystem'] == 'SLES' and $facts['operatingsystemmajrelease'] == '12') or
+    ($facts['operatingsystem'] == 'OpenSuSE' and $facts['operatingsystemmajrelease'] == '42') {
     file { '/var/run/ntp/servers-netconfig':
       ensure => 'absent'
     }
+  }
+
+  case $::osfamily
+  {
+    'redhat':
+    {
+      $daemon_config = '/etc/sysconfig/ntpd'
+      if $ntp::daemon_extra_opts {
+        file_line { 'Set NTPD daemon options':
+          ensure => present,
+          path   => $daemon_config,
+          line   => "OPTIONS='${ntp::daemon_extra_opts}'",
+          match  => '^OPTIONS\=',
+        }
+      }
+      if $ntp::user and $facts['operatingsystemmajrelease'] != '6' {
+        file_line { 'Set NTPD daemon user':
+          ensure => present,
+          path   => '/etc/systemd/system/multi-user.target.wants/ntpd.service',
+          line   => "ExecStart=/usr/sbin/ntpd -u ${ntp::user}:${ntp::user} \$OPTIONS",
+          match  => '^ExecStart\=',
+        }
+      }
+    }
+    'Debian':
+    {
+      $daemon_config = '/etc/default/ntp'
+      if $ntp::daemon_extra_opts {
+        file_line { 'Set NTPD daemon options':
+          ensure => present,
+          path   => $daemon_config,
+          line   => "NTPD_OPTS='${ntp::daemon_extra_opts}'",
+          match  => '^NTPD_OPTS\=',
+        }
+      }
+      if $ntp::user and $facts['operatingsystemmajrelease'] == '18.04' {
+        file_line { 'Set NTPD daemon user':
+          ensure => present,
+          path   => '/usr/lib/ntp/ntp-systemd-wrapper',
+          line   => "RUNASUSER=${ntp::user}",
+          match  => '^RUNASUSER\=',
+        }
+      }
+    }
+    'Suse':
+    {
+      $daemon_config = '/etc/sysconfig/ntp'
+      if $ntp::daemon_extra_opts {
+        file_line { 'Set NTPD daemon options':
+          ensure => present,
+          path   => $daemon_config,
+          line   => "OPTIONS='${ntp::daemon_extra_opts}'",
+          match  => '^OPTIONS\=',
+        }
+      }
+    }
+    default: { }
   }
 
   if $ntp::keys_enable {
@@ -26,7 +88,7 @@ class ntp::config inherits ntp {
       ensure  => file,
       owner   => 0,
       group   => 0,
-      mode    => '0644',
+      mode    => '0600',
       content => epp('ntp/keys.epp'),
     }
   }
@@ -77,9 +139,9 @@ class ntp::config inherits ntp {
   if $ntp::logfile {
     file { $ntp::logfile:
       ensure => file,
-      owner  => 'ntp',
-      group  => 'ntp',
-      mode   => '0664',
+      owner  => $ntp::logfile_user,
+      group  => $ntp::logfile_group,
+      mode   => $ntp::logfile_mode,
     }
   }
 
@@ -90,6 +152,11 @@ class ntp::config inherits ntp {
     }
 
     file { '/var/lib/ntp/ntp.conf.dhcp':
+      ensure => absent,
+    }
+
+    #remove dhclient ntp script which modifies ntp.conf on RHEL and Amazon Linux
+    file { '/etc/dhcp/dhclient.d/ntp.sh':
       ensure => absent,
     }
   }

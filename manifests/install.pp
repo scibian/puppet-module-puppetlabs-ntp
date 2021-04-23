@@ -1,5 +1,9 @@
+# @summary
+#   This class handles ntp packages.
 #
-class ntp::install inherits ntp {
+# @api private
+#
+class ntp::install {
 
   if $ntp::package_manage {
 
