@@ -1,7 +1,13 @@
-puppet-module-puppetlabs-ntp (9.0.1-1) scibian9; urgency=medium
+puppet-module-puppetlabs-ntp (9.0.1-1sci9u2) scibian9; urgency=medium
+
+  * suppress tests/control to fix autopkgtest issue
+
+ -- Kwame AMEDODJI <kwame-externe.amedodji@edf.fr>  Tue, 27 Apr 2021 16:21:37 +0200
+
+puppet-module-puppetlabs-ntp (9.0.1-1sci9u1) scibian9; urgency=medium
 
   [ Kwame AMEDODJI ]
-  * New upstream version 9.0.1
+  * New upstream version 9.0.1sci9u1
   * Change dependancies to : puppet5 | puppet5-common
 
  -- Kwame AMEDODJI <kwame-externe.amedodji@edf.fr>  Fri, 23 Apr 2021 21:52:21 +0200
